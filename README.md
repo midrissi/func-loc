@@ -13,7 +13,7 @@ Based on the awesome project [get-function-location](https://github.com/rwjblue/
 ## How to install
 
 ```
-$ npm install func-loc
+$ npm i func-loc
 ```
 
 ## How to use
