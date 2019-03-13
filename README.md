@@ -3,6 +3,7 @@
 [![Coveralls][coverage-badge]][coverage]
 [![Build Status][travis-badge]][travis]
 [![Dependencies][dependencies-badge]][dependencies]
+[![npm version][npm-badge]][npm]
 [![PRs Welcome][prs-badge]][prs]
 [![MIT License][license-badge]][license]
 
@@ -56,5 +57,7 @@ MIT © Mohamed IDRISSI
 [dependencies]: https://david-dm.org/midrissi/func-loc
 [prs-badge]: https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square
 [prs]: http://makeapullrequest.com
+[npm-badge]: https://badge.fury.io/js/func-loc.svg
+[npm]: https://www.npmjs.com/package/func-loc
 [license-badge]: https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square
 [license]: https://github.com/midrissi/func-loc/blob/master/LICENSE
