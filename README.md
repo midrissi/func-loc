@@ -34,7 +34,7 @@ const fn = () => {
 
 ## APIs:
 
-* `locate(fn: Function)`: Will retrieve the location of a given function, and will cache it so that the second call will be faster.
+1. `locate(fn: Function)`: Will retrieve the location of a given function, and will cache it so that the second call will be faster.
 
 The result of the call will an object that contains these attributes:
 
@@ -44,7 +44,7 @@ The result of the call will an object that contains these attributes:
 
 Internally, this function will open an [inspector](https://nodejs.org/api/inspector.html) session. So it is always a good idea to call the `disconnect` method when you are done.
 
-* `disconnect()`: will [`disconnect`](https://nodejs.org/api/inspector.html#inspector_session_disconnect) the [instpector](https://nodejs.org/api/inspector.html) [session](https://nodejs.org/api/inspector.html#inspector_class_inspector_session), cleans the cache and delete temporary created objects from the global object. 
+2. `disconnect()`: will [`disconnect`](https://nodejs.org/api/inspector.html#inspector_session_disconnect) the [instpector](https://nodejs.org/api/inspector.html) [session](https://nodejs.org/api/inspector.html#inspector_class_inspector_session), cleans the cache and delete temporary created objects from the global object. 
 
 ## License
 
