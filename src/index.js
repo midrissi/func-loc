@@ -37,14 +37,10 @@ exports.clean = async () => {
   }
 
   const post$ = promisify(session.post).bind(session);
-
-  try {
-    await post$('Runtime.releaseObjectGroup', {
-      objectGroup: PREFIX,
-    });
-  } catch (e) {
-    return false;
-  }
+  
+  await post$('Runtime.releaseObjectGroup', {
+    objectGroup: PREFIX,
+  });
 
   session.disconnect();
   delete global[PREFIX];

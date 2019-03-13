@@ -6,9 +6,7 @@
 [![PRs Welcome][prs-badge]][prs]
 [![MIT License][license-badge]][license]
 
-A simple tool that helps you to retrieve the function location from its reference.
-
-Based on the awesome project [get-function-location](https://github.com/rwjblue/get-function-location).
+A simple tool that help you to retrieve the function location from its reference.
 
 ## How to install
 
@@ -36,7 +34,7 @@ const fn = () => {
 
 1. `locate(fn: Function)`: Will retrieve the location of a given function, and will cache it so that the second call will be faster.
 
-The result of the call will an object that contains these attributes:
+The result of the call will be an object that contains these attributes:
 
 - `source`: The source file
 - `line`: The line where the function was defined
