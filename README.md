@@ -49,7 +49,7 @@ Internally, this function will open an [inspector](https://nodejs.org/api/inspec
 
 MIT © Mohamed IDRISSI
 
-[coverage-badge]: https://coveralls.io/repos/github/midrissi/func-loc/badge.svg?branch=master
+[coverage-badge]: https://coveralls.io/repos/github/midrissi/func-loc/badge.svg?branch=master&service=github
 [coverage]: https://coveralls.io/github/midrissi/func-loc?branch=master
 [travis-badge]: https://travis-ci.org/midrissi/func-loc.svg?branch=master
 [travis]: https://travis-ci.org/midrissi/func-loc
