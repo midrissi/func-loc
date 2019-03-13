@@ -1,5 +1,3 @@
-const { lt } = require('semver');
-const { Session } = require('inspector');
 const { promisify } = require('util');
 const { v4 } = require('uuid');
 
@@ -61,10 +59,6 @@ exports.locate = async fn => {
     throw new Error('You are allowed only to reference functions.');
   }
 
-  if (lt(process.version, '8.0.0')) {
-    throw new Error('You are using an older version of NodeJS.');
-  }
-
   // Look from the function inside the cache array and return it if it does exist.
   let result = fromCache(fn);
 
@@ -91,6 +85,8 @@ exports.locate = async fn => {
 
   // Create an inspector session an enable the debugger inside it
   if (!session) {
+    // eslint-disable-next-line global-require,import/no-unresolved
+    const { Session } = require('inspector');
     session = new Session();
     post$ = promisify(session.post).bind(session);
     session.connect();
