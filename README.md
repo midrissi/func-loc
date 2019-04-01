@@ -44,7 +44,7 @@ The result of the call will be an object that contains these attributes:
 
 Internally, this function will open an [inspector](https://nodejs.org/api/inspector.html) session. So it is always a good idea to call the `disconnect` method when you are done.
 
-1.  `disconnect()` : will [`disconnect`](https://nodejs.org/api/inspector.html#inspector_session_disconnect) the [instpector](https://nodejs.org/api/inspector.html) [session](https://nodejs.org/api/inspector.html#inspector_class_inspector_session), cleans the cache and delete temporary created objects from the global object. 
+1.  `disconnect()` : will [`disconnect`](https://nodejs.org/api/inspector.html#inspector_session_disconnect) the [inspector](https://nodejs.org/api/inspector.html) [session](https://nodejs.org/api/inspector.html#inspector_class_inspector_session), cleans the cache and delete temporary created objects from the global object. 
 
 ## License
 
