@@ -35,7 +35,7 @@ exports.clean = async () => {
   }
 
   const post$ = promisify(session.post).bind(session);
-  
+
   await post$('Runtime.releaseObjectGroup', {
     objectGroup: PREFIX,
   });
