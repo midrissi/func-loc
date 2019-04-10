@@ -5,6 +5,7 @@
 [![Codacy Badge][codacy-badge]][codacy]
 [![Dependencies][dependencies-badge]][dependencies]
 [![npm version][npm-badge]][npm]
+[![vulnerabilities][vulnerabilities-badge]][vulnerabilities]
 [![PRs Welcome][prs-badge]][prs]
 [![MIT License][license-badge]][license]
 
@@ -58,9 +59,11 @@ MIT © Mohamed IDRISSI
 [codacy]: https://www.codacy.com/app/midrissi/func-loc?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=midrissi/func-loc&amp;utm_campaign=Badge_Grade
 [dependencies-badge]: https://david-dm.org/midrissi/func-loc/status.svg
 [dependencies]: https://david-dm.org/midrissi/func-loc
-[prs-badge]: https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square
+[prs-badge]: https://img.shields.io/badge/PRs-welcome-brightgreen.svg
 [prs]: http://makeapullrequest.com
 [npm-badge]: https://badge.fury.io/js/func-loc.svg
 [npm]: https://www.npmjs.com/package/func-loc
-[license-badge]: https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square
+[vulnerabilities-badge]: https://snyk.io/test/github/midrissi/func-loc/badge.svg?targetFile=package.json
+[vulnerabilities]: https://snyk.io/test/github/midrissi/func-loc?targetFile=package.json
+[license-badge]: https://img.shields.io/badge/license-MIT-blue.svg
 [license]: https://github.com/midrissi/func-loc/blob/master/LICENSE
