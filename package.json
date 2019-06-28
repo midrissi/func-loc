@@ -1,6 +1,6 @@
 {
   "name": "func-loc",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Retrieve the function location from it reference in NodeJS.",
   "main": "./src/index.js",
   "types": "./lib/index.d.ts",
