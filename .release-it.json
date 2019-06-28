@@ -1,6 +1,9 @@
 {
   "git": {
-    "tagName": "v${version}"
+    "tagName": "v${version}",
+    "requireCleanWorkingDir": false,
+    "commitMessage": "ci: release v${version}",
+    "push": true
   },
   "github": {
     "release": true
