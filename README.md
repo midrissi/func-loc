@@ -3,7 +3,14 @@
 [![Coveralls][coverage-badge]][coverage]
 [![Build Status][travis-badge]][travis]
 [![Codacy Badge][codacy-badge]][codacy]
-[![Dependencies][dependencies-badge]][dependencies]
+![David](https://img.shields.io/david/midrissi/func-loc)
+![David](https://img.shields.io/david/dev/midrissi/func-loc)
+![node](https://img.shields.io/node/v/func-loc)
+![npm](https://img.shields.io/npm/dm/func-loc)
+![npm](https://img.shields.io/npm/v/func-loc)
+![GitHub issues](https://img.shields.io/github/issues/midrissi/func-loc)
+![GitHub top language](https://img.shields.io/github/languages/top/midrissi/func-loc)
+![GitHub contributors](https://img.shields.io/github/contributors/midrissi/func-loc)
 [![npm version][npm-badge]][npm]
 [![vulnerabilities][vulnerabilities-badge]][vulnerabilities]
 [![PRs Welcome][prs-badge]][prs]
@@ -57,8 +64,6 @@ MIT © Mohamed IDRISSI
 [travis]: https://travis-ci.org/midrissi/func-loc
 [codacy-badge]: https://api.codacy.com/project/badge/Grade/fd744ba304a244629886dfb19c85af40
 [codacy]: https://www.codacy.com/app/midrissi/func-loc?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=midrissi/func-loc&amp;utm_campaign=Badge_Grade
-[dependencies-badge]: https://david-dm.org/midrissi/func-loc/status.svg
-[dependencies]: https://david-dm.org/midrissi/func-loc
 [prs-badge]: https://img.shields.io/badge/PRs-welcome-brightgreen.svg
 [prs]: http://makeapullrequest.com
 [npm-badge]: https://badge.fury.io/js/func-loc.svg
