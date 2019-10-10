@@ -53,9 +53,9 @@
     "mocha": "^6.2.1",
     "nyc": "^14.1.1",
     "prettier": "^1.18.2",
-    "release-it": "^12.4.2",
+    "release-it": "^12.4.3",
     "tslint": "^5.20.0",
-    "typescript": "^3.6.3"
+    "typescript": "^3.6.4"
   },
   "engines": {
     "node": ">= 8.0.0"
