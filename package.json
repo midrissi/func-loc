@@ -3,11 +3,12 @@
   "version": "0.1.7",
   "description": "Retrieve the function location from it reference in NodeJS.",
   "main": "./src/index.js",
-  "types": "./lib/index.d.ts",
+  "types": "./dist/index.d.ts",
   "scripts": {
+    "build": "tsc",
     "lint": "eslint . && tslint -c tslint.json 'lib/**/*.ts'",
     "format": "prettier --write \"src/**/*.js\" \"__tests__/**/*.js\"",
-    "pretest": "npm run lint",
+    "pretest": "npm run lint && npm run build",
     "test": "nyc --reporter=html --reporter=text mocha --exit --reporter spec ./__tests__/**/*.test.js",
     "prepublishOnly": "npm test",
     "preversion": "npm run lint",
@@ -54,8 +55,8 @@
     "nyc": "^14.1.1",
     "prettier": "^1.18.2",
     "release-it": "^12.4.3",
-    "tslint": "^5.20.0",
-    "typescript": "^3.6.4"
+    "tslint": "^5.20.1",
+    "typescript": "^3.7.2"
   },
   "engines": {
     "node": ">= 8.0.0"
@@ -69,7 +70,8 @@
     }
   },
   "files": [
-    "src/**/*.js"
+    "src/**/*.js",
+    "dist/**"
   ],
   "lint-staged": {
     "*.js": [
