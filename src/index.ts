@@ -1,3 +1,11 @@
-import { resolve } from 'path';
+import { SessionManager } from "./session-manager.class";
 
-console.log(resolve());
+const s = new SessionManager();
+
+export function locate(fn: (...args: any[]) => any): Promise<any> {
+  return s.locate(fn);
+}
+
+export function clean() {
+  return s.clean();
+}
