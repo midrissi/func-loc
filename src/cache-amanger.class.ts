@@ -1,9 +1,11 @@
 import { Deferred } from "./deffered.class";
 
 export interface ILocation {
+  path: string;
   source: string;
   line: number;
-  column: string;
+  column: number;
+  origin?: ILocation;
 }
 
 interface ICacheItem {

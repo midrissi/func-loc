@@ -54,6 +54,78 @@ Internally, this function will open an [inspector](https://nodejs.org/api/inspec
 
 2.  `disconnect()` : will [`disconnect`](https://nodejs.org/api/inspector.html#inspector_session_disconnect) the [inspector](https://nodejs.org/api/inspector.html) [session](https://nodejs.org/api/inspector.html#inspector_class_inspector_session), cleans the cache and delete temporary created objects from the global object. 
 
+## Using Source Maps
+
+This library can also locate the original code using [source-map](https://developer.mozilla.org/en-US/docs/Tools/Debugger/How_to/Use_a_source_map):
+
+Lets say that you have a typescript file containing:
+
+```typescript
+// File: `module.ts`
+export function inner() {
+  const fn3 = () => {};
+  return fn3;
+}
+```
+
+Transpiling this file using [typescript compiler](https://www.typescriptlang.org/) will generate a source map file like:
+
+```json
+{
+  "version": 3,
+  "file": "module.js",
+  "sourceRoot": "",
+  "sources": [
+    "module.ts"
+  ],
+  "names": [],
+  "mappings": ";;AAAA,oBAAoB;AACpB,SAAgB,KAAK;IACnB,IAAM,GAAG,GAAG,cAAO,CAAC,CAAC;IACrB,OAAO,GAAG,CAAC;AACb,CAAC;AAHD,sBAGC"
+}
+```
+
+And a javascript file containing:
+
+```javascript
+"use strict";
+exports.__esModule = true;
+// File: `module.ts`
+function inner() {
+    var fn3 = function () { };
+    return fn3;
+}
+exports.inner = inner;
+//# sourceMappingURL=module.js.map
+```
+
+If you execute the following code
+
+```javascript
+const { locate } = require('func-loc');
+const { inner } = require('../__tests__/assets/module');
+
+(async () => {
+  const loc = await locate(inner(), { sourceMap: true });
+  console.log(loc);
+})();
+```
+
+It will output the line of the inner function f3 of the file `module.ts`:
+
+```json
+{
+  origin: {
+    path: '/BASE_FOLDER/module.js',
+    column: 24,
+    line: 5,
+    source: 'file:///BASE_FOLDER/module.js'
+  },
+  line: 3,
+  column: 14,
+  path: '/BASE_FOLDER/module.ts',
+  source: 'file:///BASE_FOLDER/module.ts'
+}
+```
+
 ## License
 
 MIT © Mohamed IDRISSI

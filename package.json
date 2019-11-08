@@ -4,12 +4,13 @@
   "description": "Retrieve the function location from it reference in NodeJS.",
   "main": "./dist/index.js",
   "scripts": {
+    "test:tsc": "tsc --sourceMap __tests__/assets/*.ts",
     "build": "tsc --build tsconfig.json",
     "prebuild": "rimraf dist",
     "lint": "eslint . && tslint -c tslint.json 'lib/**/*.ts'",
     "format": "prettier --write \"src/**/*.js\" \"__tests__/**/*.js\"",
     "pretest": "npm run build && npm run lint",
-    "test": "nyc --reporter=html --reporter=text mocha --exit --reporter spec ./__tests__/**/*.test.js",
+    "test": "nyc --reporter=html --reporter=text mocha",
     "prepublishOnly": "npm test",
     "preversion": "npm run lint",
     "release:major": "release-it major",
@@ -38,6 +39,7 @@
   },
   "license": "MIT",
   "dependencies": {
+    "source-map": "^0.7.3",
     "uuid": "^3.3.3"
   },
   "devDependencies": {
