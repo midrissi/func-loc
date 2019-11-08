@@ -115,16 +115,16 @@ It will output the line of the inner function f3 of the file `module.ts`:
 
 ```json
 {
-  origin: {
-    path: '/BASE_FOLDER/module.js',
-    column: 24,
-    line: 5,
-    source: 'file:///BASE_FOLDER/module.js'
+  "origin": {
+    "path": "/BASE_FOLDER/module.js",
+    "column": 24,
+    "line": 5,
+    "source": "file:///BASE_FOLDER/module.js"
   },
-  line: 3,
-  column: 14,
-  path: '/BASE_FOLDER/module.ts',
-  source: 'file:///BASE_FOLDER/module.ts'
+  "line": 3,
+  "column": 14,
+  "path": "/BASE_FOLDER/module.ts",
+  "source": "file:///BASE_FOLDER/module.ts"
 }
 ```
 
