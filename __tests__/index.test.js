@@ -1,34 +1,38 @@
+/* eslint-disable import/newline-after-import,import/no-dynamic-require */
+
 const { describe, it, afterEach } = require('mocha');
 const { expect } = require('chai');
 const { promisify } = require('util');
+const { resolve } = require('path');
+
+const modPath = './assets/module';
 
 const { locate, clean } = require('..');
-
-const fn = () => {};
-function fn2() {}
-
-function inner() {
-  const fn3 = () => {};
-  return fn3;
-}
+const { fn, fn2, inner } = require(modPath);
+const { fn: fnInvalid1 } = require('./assets/invalid');
+const { fn: fnInvalid2 } = require('./assets/invalid2');
 
 const KEYS_COUNT = Object.keys(global).length;
+const modFullPath = `${resolve(__dirname, modPath)}.js`;
+const modFullSource = `file://${modFullPath}`;
 
 describe('locate(fn)', () => {
   it('works for inner functions', async () => {
     const result = await locate(inner());
     expect(result).to.eql({
-      source: `file://${__filename}`,
-      line: 11,
-      column: 15,
+      path: modFullPath,
+      source: modFullSource,
+      line: 12,
+      column: 21,
     });
   });
 
   it('works for normal functions', async () => {
     const result = await locate(fn2);
     expect(result).to.eql({
-      source: `file://${__filename}`,
-      line: 8,
+      path: modFullPath,
+      source: modFullSource,
+      line: 7,
       column: 13,
     });
   });
@@ -36,8 +40,9 @@ describe('locate(fn)', () => {
   it('works for arrow functions', async () => {
     const result = await locate(fn);
     expect(result).to.eql({
-      source: `file://${__filename}`,
-      line: 7,
+      path: modFullPath,
+      source: modFullSource,
+      line: 3,
       column: 12,
     });
   });
@@ -46,20 +51,23 @@ describe('locate(fn)', () => {
     const [r1, r2, r3] = await Promise.all([locate(inner()), locate(fn2), locate(fn)]);
 
     expect(r1).to.eql({
-      source: `file://${__filename}`,
-      line: 11,
-      column: 15,
+      path: modFullPath,
+      source: modFullSource,
+      line: 12,
+      column: 21,
     });
 
     expect(r2).to.eql({
-      source: `file://${__filename}`,
-      line: 8,
+      path: modFullPath,
+      source: modFullSource,
+      line: 7,
       column: 13,
     });
 
     expect(r3).to.eql({
-      source: `file://${__filename}`,
-      line: 7,
+      path: modFullPath,
+      source: modFullSource,
+      line: 3,
       column: 12,
     });
   });
@@ -103,5 +111,49 @@ describe('clean()', () => {
   it('should return true if no session was created', async () => {
     const result = await clean();
     expect(result).to.equal(true);
+  });
+});
+
+describe('locate(fn) with source maps', () => {
+  it('sould return the mapped source location', async () => {
+    const result = await locate(fn2, { sourceMap: true });
+    const tsPath = resolve(modFullPath, '..', 'module.ts');
+    expect(result).to.eql({
+      path: tsPath,
+      source: `file://${tsPath}`,
+      line: 5,
+      column: 19,
+      origin: {
+        path: modFullPath,
+        source: modFullSource,
+        line: 7,
+        column: 13,
+      },
+    });
+  });
+
+  it('sould retrieve from the cache', async () => {
+    let result = await locate(fn2, { sourceMap: true });
+    const tsPath = resolve(modFullPath, '..', 'module.ts');
+
+    expect(result.path).to.eql(tsPath);
+    result = await locate(fn, { sourceMap: true });
+    expect(result.path).to.eql(tsPath);
+  });
+
+  it('sould retrieve from an nonexistent sourcemap', async () => {
+    const result = await locate(fnInvalid1, { sourceMap: true });
+
+    expect(result.path).to.eql(resolve(__dirname, './assets/invalid.js'));
+  });
+
+  it('sould retrieve from an invalid generated sourcemap', async () => {
+    const result = await locate(fnInvalid2, { sourceMap: true });
+
+    expect(result.path).to.eql(resolve(__dirname, './assets/invalid2.js'));
+  });
+
+  afterEach(async () => {
+    await clean();
   });
 });

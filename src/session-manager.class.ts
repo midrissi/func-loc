@@ -4,7 +4,13 @@ import { v4 } from "uuid";
 
 import { CacheManager, ILocation } from "./cache-amanger.class";
 import { Deferred } from "./deffered.class";
+import { SourceMapper } from "./mapper.class";
+
 const PREFIX = "__functionLocation__";
+
+export interface ILocateOptions {
+  sourceMap?: boolean;
+};
 
 export class SessionManager {
   private cache: CacheManager = new CacheManager();
@@ -31,13 +37,14 @@ export class SessionManager {
     return true;
   }
 
-  public async locate(fn: (...args: any) => any): Promise<ILocation> {
+  public async locate(fn: (...args: any) => any, opts?: ILocateOptions): Promise<ILocation> {
     if (typeof fn !== "function") {
       throw new Error("You are allowed only to reference functions.");
     }
 
     // Look from the function inside the cache array and return it if it does exist.
     const fromCache = await this.cache.get(fn);
+    const isMap = opts && opts.sourceMap;
 
     if (fromCache) {
       return await fromCache.location.promise;
@@ -90,11 +97,23 @@ export class SessionManager {
     }
 
     // Construct the result object
-    const result: ILocation = {
+    let result: ILocation = {
+      path: source.substr(7),
       column: location.value.value.columnNumber + 1,
       line: location.value.value.lineNumber + 1,
       source,
     };
+
+    if(isMap) {
+      try {
+        const res = await SourceMapper.map(result);
+        if(res) {
+          result = res;
+        }
+      } catch(e) {
+        // Do nothing
+      }
+    }
 
     // Resolve the defered variable
     deferred.resolve(result);

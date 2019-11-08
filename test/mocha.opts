@@ -1,0 +1,3 @@
+--exit
+--reporter spec
+./__tests__/**/*.test.js
