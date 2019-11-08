@@ -1,6 +1,6 @@
 {
   "name": "func-loc",
-  "version": "0.1.7",
+  "version": "0.1.8",
   "description": "Retrieve the function location from it reference in NodeJS.",
   "main": "./dist/index.js",
   "scripts": {
@@ -70,7 +70,10 @@
     }
   },
   "files": [
-    "src/**/*.js"
+    "src/**/*.ts",
+    "dist/**/*.js",
+    "dist/**/*.ts",
+    "dist/**/*.map"
   ],
   "lint-staged": {
     "*.js": [
