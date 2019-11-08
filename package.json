@@ -3,20 +3,19 @@
   "version": "0.1.7",
   "description": "Retrieve the function location from it reference in NodeJS.",
   "main": "./dist/index.js",
-  "types": "./dist/index.d.ts",
   "scripts": {
     "build": "tsc --build tsconfig.json",
-    "lint": "eslint . && tslint -c tslint.json 'src/**/*.ts'",
-    "format": "prettier --write \"src/**/*.js\" \"src/**/*.ts\" \"__tests__/**/*.js\"",
+    "lint": "eslint . && tslint -c tslint.json 'lib/**/*.ts'",
+    "format": "prettier --write \"src/**/*.js\" \"__tests__/**/*.js\"",
     "pretest": "npm run lint && npm run build",
-    "test": "nyc --reporter=html --reporter=text mocha --require source-map-support/register --exit --reporter spec ./__tests__/**/*.test.js",
+    "test": "nyc --reporter=html --reporter=text mocha --exit --reporter spec ./__tests__/**/*.test.js",
     "prepublishOnly": "npm test",
-    "version": "npm run lint",
+    "preversion": "npm run lint",
     "release:major": "release-it major",
     "release:minor": "release-it minor",
     "release:patch": "release-it patch",
+    "version": "npm run format && git add -A src",
     "postversion": "git push && git push --tags",
-    "prebuild": "rimraf dist",
     "coverage": "nyc report --reporter=text-lcov | coveralls"
   },
   "repository": {
@@ -38,13 +37,11 @@
   },
   "license": "MIT",
   "dependencies": {
-    "source-map": "^0.7.3",
     "uuid": "^3.3.3"
   },
   "devDependencies": {
     "@commitlint/cli": "^8.2.0",
     "@commitlint/config-conventional": "^8.2.0",
-    "@types/uuid": "^3.4.6",
     "chai": "^4.2.0",
     "coveralls": "^3.0.7",
     "eslint": "^6.6.0",
@@ -58,7 +55,6 @@
     "prettier": "^1.18.2",
     "release-it": "^12.4.3",
     "rimraf": "^3.0.0",
-    "source-map-support": "^0.5.16",
     "tslint": "^5.20.1",
     "typescript": "^3.7.2"
   },
@@ -68,14 +64,12 @@
   "husky": {
     "hooks": {
       "pre-commit": "lint-staged && npm test",
-      "pre-push": "npm test",
       "post-merge": "npm i",
       "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
     }
   },
   "files": [
-    "src/**/*.js",
-    "dist/**"
+    "src/**/*.js"
   ],
   "lint-staged": {
     "*.js": [
