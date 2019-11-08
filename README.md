@@ -72,14 +72,16 @@ Transpiling this file using [typescript compiler](https://www.typescriptlang.org
 
 ```json
 {
-  "version": 3,
-  "file": "module.js",
-  "sourceRoot": "",
-  "sources": [
-    "module.ts"
-  ],
-  "names": [],
-  "mappings": ";;AAAA,oBAAoB;AACpB,SAAgB,KAAK;IACnB,IAAM,GAAG,GAAG,cAAO,CAAC,CAAC;IACrB,OAAO,GAAG,CAAC;AACb,CAAC;AAHD,sBAGC"
+  "origin": {
+    "path": "/BASE_FOLDER/module.js",
+    "column": 24,
+    "line": 5,
+    "source": "file:///BASE_FOLDER/module.js"
+  },
+  "line": 3,
+  "column": 14,
+  "path": "/BASE_FOLDER/module.ts",
+  "source": "file:///BASE_FOLDER/module.ts"
 }
 ```
 
