@@ -70,7 +70,6 @@
     }
   },
   "files": [
-    "src/**/*.ts",
     "dist/**/*.js",
     "dist/**/*.ts",
     "dist/**/*.map"
