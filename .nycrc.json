@@ -1,0 +1,12 @@
+{
+  "extension": [
+    ".ts",
+    ".js"
+  ],
+  "sourceMap": true,
+  "produce-source-map": true,
+  "branches": 100,
+  "functions": 100,
+  "lines": 100,
+  "statements": 100
+}

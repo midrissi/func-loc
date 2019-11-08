@@ -2,12 +2,12 @@
   "name": "func-loc",
   "version": "0.1.7",
   "description": "Retrieve the function location from it reference in NodeJS.",
-  "main": "./src/index.js",
-  "types": "./lib/index.d.ts",
+  "main": "./dist/index.js",
   "scripts": {
+    "build": "tsc --build tsconfig.json",
     "lint": "eslint . && tslint -c tslint.json 'lib/**/*.ts'",
     "format": "prettier --write \"src/**/*.js\" \"__tests__/**/*.js\"",
-    "pretest": "npm run lint",
+    "pretest": "npm run lint && npm run build",
     "test": "nyc --reporter=html --reporter=text mocha --exit --reporter spec ./__tests__/**/*.test.js",
     "prepublishOnly": "npm test",
     "preversion": "npm run lint",
@@ -54,8 +54,9 @@
     "nyc": "^14.1.1",
     "prettier": "^1.18.2",
     "release-it": "^12.4.3",
-    "tslint": "^5.20.0",
-    "typescript": "^3.6.4"
+    "rimraf": "^3.0.0",
+    "tslint": "^5.20.1",
+    "typescript": "^3.7.2"
   },
   "engines": {
     "node": ">= 8.0.0"
@@ -63,7 +64,6 @@
   "husky": {
     "hooks": {
       "pre-commit": "lint-staged && npm test",
-      "pre-push": "npm test",
       "post-merge": "npm i",
       "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
     }
