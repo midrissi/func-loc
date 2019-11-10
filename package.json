@@ -55,7 +55,7 @@
     "lint-staged": "^9.4.2",
     "mocha": "^6.2.2",
     "nyc": "^14.1.1",
-    "prettier": "^1.18.2",
+    "prettier": "^1.19.1",
     "release-it": "^12.4.3",
     "rimraf": "^3.0.0",
     "tslint": "^5.20.1",
