@@ -7,7 +7,7 @@
     "test:tsc": "tsc --sourceMap __tests__/assets/*.ts",
     "build": "tsc --build tsconfig.json",
     "prebuild": "rimraf dist",
-    "lint": "eslint . && tslint -c tslint.json 'lib/**/*.ts'",
+    "lint": "eslint . && tslint -c tslint.json 'lib/**/*.ts' '__tests__/**/*.ts'",
     "format": "prettier --write \"src/**/*.js\" \"__tests__/**/*.js\"",
     "pretest": "npm run build && npm run lint",
     "test": "nyc --reporter=html --reporter=text mocha",

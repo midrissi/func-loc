@@ -10,7 +10,7 @@ const PREFIX = "__functionLocation__";
 
 export interface ILocateOptions {
   sourceMap?: boolean;
-};
+}
 
 export class SessionManager {
   private cache: CacheManager = new CacheManager();
@@ -98,19 +98,19 @@ export class SessionManager {
 
     // Construct the result object
     let result: ILocation = {
-      path: source.substr(7),
       column: location.value.value.columnNumber + 1,
       line: location.value.value.lineNumber + 1,
+      path: source.substr(7),
       source,
     };
 
-    if(isMap) {
+    if (isMap) {
       try {
         const res = await SourceMapper.map(result);
-        if(res) {
+        if (res) {
           result = res;
         }
-      } catch(e) {
+      } catch (e) {
         // Do nothing
       }
     }
