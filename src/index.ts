@@ -1,5 +1,5 @@
-import { SessionManager, ILocateOptions } from "./session-manager.class";
 import { ILocation } from "./cache-amanger.class";
+import { ILocateOptions, SessionManager } from "./session-manager.class";
 
 const s = new SessionManager();
 
