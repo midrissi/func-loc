@@ -7,6 +7,8 @@ export function fn2() {
 }
 
 export function inner() {
-  const fn3 = () => {};
+  const fn3 = () => {
+    // Empty body
+  };
   return fn3;
 }

@@ -1,13 +1,13 @@
 {
   "name": "func-loc",
-  "version": "0.1.11",
+  "version": "0.1.12",
   "description": "Retrieve the function location from it reference in NodeJS.",
   "main": "./dist/index.js",
   "scripts": {
     "test:tsc": "tsc --sourceMap __tests__/assets/*.ts",
     "build": "tsc --build tsconfig.json",
     "prebuild": "rimraf dist",
-    "lint": "eslint . && tslint -c tslint.json 'lib/**/*.ts'",
+    "lint": "eslint . && tslint -c tslint.json 'lib/**/*.ts' '__tests__/**/*.ts'",
     "format": "prettier --write \"src/**/*.js\" \"__tests__/**/*.js\"",
     "pretest": "npm run build && npm run lint",
     "test": "nyc --reporter=html --reporter=text mocha",
@@ -40,26 +40,26 @@
   "license": "MIT",
   "dependencies": {
     "source-map": "^0.7.3",
-    "uuid": "^3.3.3"
+    "uuid": "^7.0.2"
   },
   "devDependencies": {
-    "@commitlint/cli": "^8.2.0",
-    "@commitlint/config-conventional": "^8.2.0",
+    "@commitlint/cli": "^8.3.5",
+    "@commitlint/config-conventional": "^8.3.4",
     "chai": "^4.2.0",
-    "coveralls": "^3.0.7",
-    "eslint": "^6.6.0",
-    "eslint-config-airbnb-base": "^14.0.0",
-    "eslint-config-prettier": "^6.5.0",
-    "eslint-plugin-import": "^2.18.2",
-    "husky": "^3.0.9",
-    "lint-staged": "^9.4.2",
-    "mocha": "^6.2.2",
-    "nyc": "^14.1.1",
-    "prettier": "^1.18.2",
-    "release-it": "^12.4.3",
-    "rimraf": "^3.0.0",
-    "tslint": "^5.20.1",
-    "typescript": "^3.7.2"
+    "coveralls": "^3.0.11",
+    "eslint": "^6.8.0",
+    "eslint-config-airbnb-base": "^14.1.0",
+    "eslint-config-prettier": "^6.10.0",
+    "eslint-plugin-import": "^2.20.1",
+    "husky": "^4.2.3",
+    "lint-staged": "^10.0.8",
+    "mocha": "^7.1.1",
+    "nyc": "^15.0.0",
+    "prettier": "^2.0.1",
+    "release-it": "^13.1.2",
+    "rimraf": "^3.0.2",
+    "tslint": "^6.1.0",
+    "typescript": "^3.8.3"
   },
   "engines": {
     "node": ">= 8.0.0"

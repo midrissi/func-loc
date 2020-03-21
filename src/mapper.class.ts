@@ -1,15 +1,15 @@
-import { resolve } from 'path';
-import { readFile } from 'fs';
-import { promisify } from 'util';
-import { SourceMapConsumer, RawSourceMap } from 'source-map';
+import { readFile } from "fs";
+import { resolve } from "path";
+import { RawSourceMap, SourceMapConsumer } from "source-map";
+import { promisify } from "util";
 
-import { ILocation } from './cache-amanger.class';
-import { Deferred } from './deffered.class';
+import { ILocation } from "./cache-amanger.class";
+import { Deferred } from "./deffered.class";
 
 const readFile$ = promisify(readFile);
 const REGEX = /\/\/# sourceMappingURL=(.*\.map)$/m;
 
-require.extensions['.map'] = require.extensions['.json'];
+require.extensions[".map"] = require.extensions[".json"];
 
 interface IFileMap {
   content: string;
@@ -23,19 +23,26 @@ const cache: {
 } = {};
 
 export class SourceMapper {
+  public static normalizePath(p: string): string {
+    let pathName = resolve(p).replace(/\\/g, "/");
+
+    // Windows drive letter must be prefixed with a slash
+    if (pathName[0] !== "/") {
+      pathName = `/${pathName}`;
+    }
+
+    return pathName;
+  }
+
   public static async map(location: ILocation): Promise<ILocation> {
     const { consumer, sourceMapPath } = await this.getSrcMap(location);
 
-    if(!consumer) {
-      return null;
-    }
-
     const mappedLocation = consumer.originalPositionFor({
-      line: location.line,
       column: location.column,
+      line: location.line,
     });
 
-    if(
+    if (
       !mappedLocation
       || !mappedLocation.column
       || !mappedLocation.line
@@ -43,21 +50,30 @@ export class SourceMapper {
       return location;
     }
 
-    const path = resolve(sourceMapPath, '..', mappedLocation.source);
+    const path = this.normalizePath(resolve(sourceMapPath, "..", mappedLocation.source));
 
     return {
-      origin: location,
-      line: mappedLocation.line,
       column: mappedLocation.column,
+      line: mappedLocation.line,
+      origin: location,
       path,
       source: `file://${path}`,
-    }
+    };
+  }
+
+  private static getPlatformPath(path: string): string {
+    const exec = /^\/(\w*):(.*)/.exec(path);
+
+    return /^win/.test(process.platform) && exec
+      ? `${exec[1]}:\\${exec[2].replace(/\//g, "\\")}`
+      : path;
   }
 
   private static async getSrcMap(location: ILocation): Promise<IFileMap> {
-    const { path } = location;
+    let { path } = location;
+    path = this.getPlatformPath(path);
 
-    if(cache[path]) {
+    if (cache[path]) {
       const fileMap = await (cache[path].promise);
       return fileMap;
     }
@@ -65,18 +81,18 @@ export class SourceMapper {
     const deferred = new Deferred<IFileMap>();
     cache[path] = deferred;
 
-    const content = await readFile$(path, { encoding: 'utf8' });
+    const content = await readFile$(path, { encoding: "utf8" });
     const exec = REGEX.exec(content);
     const result: IFileMap = { content };
 
-    if(exec) {
-      result.sourceMapPath = resolve(path, '..', exec[1]);
-      result.sourceMap = <RawSourceMap>require(result.sourceMapPath);
+    if (exec) {
+      result.sourceMapPath = resolve(path, "..", exec[1]);
+      result.sourceMap = require(result.sourceMapPath);
       result.consumer = await new SourceMapConsumer(result.sourceMap);
     }
 
     deferred.resolve(result);
-    
+
     return result;
   }
 }

@@ -8,13 +8,17 @@ const { resolve } = require('path');
 const modPath = './assets/module';
 
 const { locate, clean } = require('..');
+const { SourceMapper } = require('../dist/mapper.class');
 const { fn, fn2, inner } = require(modPath);
 const { fn: fnInvalid1 } = require('./assets/invalid');
 const { fn: fnInvalid2 } = require('./assets/invalid2');
 
+const { normalizePath } = SourceMapper;
+
 const KEYS_COUNT = Object.keys(global).length;
-const modFullPath = `${resolve(__dirname, modPath)}.js`;
+const modFullPath = normalizePath(`${resolve(__dirname, modPath)}.js`);
 const modFullSource = `file://${modFullPath}`;
+const tsPath = normalizePath(`${resolve(__dirname, modPath)}.ts`);
 
 describe('locate(fn)', () => {
   it('works for inner functions', async () => {
@@ -115,9 +119,8 @@ describe('clean()', () => {
 });
 
 describe('locate(fn) with source maps', () => {
-  it('sould return the mapped source location', async () => {
+  it('should return the mapped source location', async () => {
     const result = await locate(fn2, { sourceMap: true });
-    const tsPath = resolve(modFullPath, '..', 'module.ts');
     expect(result).to.eql({
       path: tsPath,
       source: `file://${tsPath}`,
@@ -132,25 +135,26 @@ describe('locate(fn) with source maps', () => {
     });
   });
 
-  it('sould retrieve from the cache', async () => {
+  it('should retrieve from the cache', async () => {
     let result = await locate(fn2, { sourceMap: true });
-    const tsPath = resolve(modFullPath, '..', 'module.ts');
 
     expect(result.path).to.eql(tsPath);
     result = await locate(fn, { sourceMap: true });
     expect(result.path).to.eql(tsPath);
   });
 
-  it('sould retrieve from an nonexistent sourcemap', async () => {
+  it('should retrieve from an nonexistent sourcemap', async () => {
     const result = await locate(fnInvalid1, { sourceMap: true });
+    const p = normalizePath(resolve(__dirname, './assets/invalid.js'));
 
-    expect(result.path).to.eql(resolve(__dirname, './assets/invalid.js'));
+    expect(result.path).to.eql(p);
   });
 
-  it('sould retrieve from an invalid generated sourcemap', async () => {
+  it('should retrieve from an invalid generated sourcemap', async () => {
     const result = await locate(fnInvalid2, { sourceMap: true });
+    const p = normalizePath(resolve(__dirname, './assets/invalid2.js'));
 
-    expect(result.path).to.eql(resolve(__dirname, './assets/invalid2.js'));
+    expect(result.path).to.eql(p);
   });
 
   afterEach(async () => {
