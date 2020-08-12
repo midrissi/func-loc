@@ -1,15 +1,17 @@
-/* eslint-disable import/newline-after-import,import/no-dynamic-require */
-
 const { describe, it, afterEach } = require('mocha');
 const { expect } = require('chai');
 const { promisify } = require('util');
-const { resolve } = require('path');
+const path = require('path');
+
+const { resolve } = path;
 
 const modPath = './assets/module';
 
+// eslint-disable-next-line import/no-dynamic-require
+const { fn, fn2, inner } = require(modPath);
+
 const { locate, clean } = require('..');
 const { SourceMapper } = require('../dist/mapper.class');
-const { fn, fn2, inner } = require(modPath);
 const { fn: fnInvalid1 } = require('./assets/invalid');
 const { fn: fnInvalid2 } = require('./assets/invalid2');
 
