@@ -9,7 +9,7 @@ function fn2() {
 }
 exports.fn2 = fn2;
 function inner() {
-  var fn3 = function() {};
+  var fn3 = function () {};
   return fn3;
 }
 exports.inner = inner;

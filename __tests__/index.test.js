@@ -29,7 +29,7 @@ describe('locate(fn)', () => {
       path: modFullPath,
       source: modFullSource,
       line: 12,
-      column: 21,
+      column: 22,
     });
   });
 
@@ -60,7 +60,7 @@ describe('locate(fn)', () => {
       path: modFullPath,
       source: modFullSource,
       line: 12,
-      column: 21,
+      column: 22,
     });
 
     expect(r2).to.eql({
