@@ -2,6 +2,7 @@ import { readFile } from "fs";
 import { resolve } from "path";
 import { RawSourceMap, SourceMapConsumer } from "source-map";
 import { promisify } from "util";
+import parseDataURL from "data-urls";
 
 import { ILocation } from "./cache-amanger.class";
 import { Deferred } from "./deffered.class";
@@ -34,8 +35,8 @@ export class SourceMapper {
     return pathName;
   }
 
-  public static async map(location: ILocation): Promise<ILocation> {
-    const { consumer, sourceMapPath } = await this.getSrcMap(location);
+  public static async map(location: ILocation, sourceMapUrl?: string): Promise<ILocation> {
+    const { consumer, sourceMapPath } = await this.getSrcMap(location, sourceMapUrl);
 
     const mappedLocation = consumer.originalPositionFor({
       column: location.column,
@@ -69,7 +70,7 @@ export class SourceMapper {
       : path;
   }
 
-  private static async getSrcMap(location: ILocation): Promise<IFileMap> {
+  private static async getSrcMap(location: ILocation, sourceMapUrl?: string): Promise<IFileMap> {
     let { path } = location;
     path = this.getPlatformPath(path);
 
@@ -89,6 +90,12 @@ export class SourceMapper {
       result.sourceMapPath = resolve(path, "..", exec[1]);
       result.sourceMap = require(result.sourceMapPath);
       result.consumer = await new SourceMapConsumer(result.sourceMap);
+    } else if (sourceMapUrl) {
+      const parsedSourceMapUrl = parseDataURL(sourceMapUrl);
+      if (parsedSourceMapUrl && parsedSourceMapUrl.body) {
+        result.sourceMap = JSON.parse(parsedSourceMapUrl.body.toString());
+        result.consumer = await new SourceMapConsumer(result.sourceMap);
+      }
     }
 
     deferred.resolve(result);

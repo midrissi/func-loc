@@ -3,6 +3,9 @@
     ".ts",
     ".js"
   ],
+  "require": [
+    "ts-node/register/transpile-only"
+  ],
   "sourceMap": true,
   "produce-source-map": true,
   "branches": 100,

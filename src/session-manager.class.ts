@@ -90,6 +90,7 @@ export class SessionManager {
     const location = properties.internalProperties.find((prop) => prop.name === "[[FunctionLocation]]");
     const script = this.scripts[location.value.value.scriptId];
     let source = script.url;
+    const sourceMapUrl = script.sourceMapURL;
 
     // Normalize the source uri to ensure consistent result
     if (!source.startsWith("file://")) {
@@ -106,7 +107,7 @@ export class SessionManager {
 
     if (isMap) {
       try {
-        const res = await SourceMapper.map(result);
+        const res = await SourceMapper.map(result, sourceMapUrl);
         if (res) {
           result = res;
         }

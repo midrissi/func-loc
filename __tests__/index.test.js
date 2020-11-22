@@ -8,7 +8,9 @@ const { resolve } = path;
 const modPath = './assets/module';
 
 // eslint-disable-next-line import/no-dynamic-require
-const { fn, fn2, inner } = require(modPath);
+const { fn, fn2, inner } = require(`${modPath}.js`);
+// eslint-disable-next-line import/no-dynamic-require
+const { fn: tsFn, fn2: tsFn2, inner: tsInner } = require(`${modPath}.ts`);
 
 const { locate, clean } = require('..');
 const { SourceMapper } = require('../dist/mapper.class');
@@ -21,6 +23,7 @@ const KEYS_COUNT = Object.keys(global).length;
 const modFullPath = normalizePath(`${resolve(__dirname, modPath)}.js`);
 const modFullSource = `file://${modFullPath}`;
 const tsPath = normalizePath(`${resolve(__dirname, modPath)}.ts`);
+const tsSource = `file://${tsPath}`;
 
 describe('locate(fn)', () => {
   it('works for inner functions', async () => {
@@ -125,7 +128,7 @@ describe('locate(fn) with source maps', () => {
     const result = await locate(fn2, { sourceMap: true });
     expect(result).to.eql({
       path: tsPath,
-      source: `file://${tsPath}`,
+      source: tsSource,
       line: 5,
       column: 19,
       origin: {
@@ -157,6 +160,53 @@ describe('locate(fn) with source maps', () => {
     const p = normalizePath(resolve(__dirname, './assets/invalid2.js'));
 
     expect(result.path).to.eql(p);
+  });
+
+  it('should return correct locations using source map URLs', async () => {
+    const [r1, r2, r3] = await Promise.all([
+      locate(tsInner(), { sourceMap: true }),
+      locate(tsFn2, { sourceMap: true }),
+      locate(tsFn, { sourceMap: true }),
+    ]);
+
+    expect(r1).to.eql({
+      path: tsPath,
+      source: tsSource,
+      line: 10,
+      column: 14,
+      origin: {
+        path: tsPath,
+        source: tsSource,
+        line: 13,
+        column: 17,
+      },
+    });
+
+    expect(r2).to.eql({
+      path: tsPath,
+      source: tsSource,
+      line: 5,
+      column: 19,
+      origin: {
+        path: tsPath,
+        source: tsSource,
+        line: 8,
+        column: 13,
+      },
+    });
+
+    expect(r3).to.eql({
+      path: tsPath,
+      source: tsSource,
+      line: 1,
+      column: 18,
+      origin: {
+        path: tsPath,
+        source: tsSource,
+        line: 4,
+        column: 12,
+      },
+    });
   });
 
   afterEach(async () => {
