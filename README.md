@@ -130,7 +130,7 @@ It will output the line of the inner function f3 of the file `module.ts`:
 
 ## License
 
-MIT © Mohamed IDRISSI
+MIT © Mohamed IDRISSI `2021`
 
 [coverage-badge]: https://coveralls.io/repos/github/midrissi/func-loc/badge.svg?branch=master&service=github
 [coverage]: https://coveralls.io/github/midrissi/func-loc?branch=master
