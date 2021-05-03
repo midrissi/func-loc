@@ -1,4 +1,4 @@
-import { Deferred } from "./deffered.class";
+import { Deferred } from './deffered.class';
 
 export interface ILocation {
   path: string;
@@ -30,7 +30,7 @@ export class CacheManager {
    * Get a function location from its reference
    * @param fn The function reference
    */
-  public get(fn: () => any): (ICacheItem | undefined) {
+  public get(fn: () => any): ICacheItem | undefined {
     return this.fnCache.find((one) => one.ref === fn);
   }
 

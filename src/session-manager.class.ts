@@ -1,12 +1,12 @@
-import { Debugger, Session } from "inspector";
-import { promisify } from "util";
-import { v4 } from "uuid";
+import { Debugger, Session } from 'inspector';
+import { promisify } from 'util';
+import { v4 } from 'uuid';
 
-import { CacheManager, ILocation } from "./cache-amanger.class";
-import { Deferred } from "./deffered.class";
-import { SourceMapper } from "./mapper.class";
+import { CacheManager, ILocation } from './cache-amanger.class';
+import { Deferred } from './deffered.class';
+import { SourceMapper } from './mapper.class';
 
-const PREFIX = "__functionLocation__";
+const PREFIX = '__functionLocation__';
 
 export interface ILocateOptions {
   sourceMap?: boolean;
@@ -14,7 +14,7 @@ export interface ILocateOptions {
 
 export class SessionManager {
   private cache: CacheManager = new CacheManager();
-  private session: (Session | undefined);
+  private session: Session | undefined;
   private post$;
   private scripts: {
     [scriptId: string]: Debugger.ScriptParsedEventDataType;
@@ -25,7 +25,7 @@ export class SessionManager {
       return true;
     }
 
-    await this.post$("Runtime.releaseObjectGroup", {
+    await this.post$('Runtime.releaseObjectGroup', {
       objectGroup: PREFIX,
     });
 
@@ -38,8 +38,8 @@ export class SessionManager {
   }
 
   public async locate(fn: (...args: any) => any, opts?: ILocateOptions): Promise<ILocation> {
-    if (typeof fn !== "function") {
-      throw new Error("You are allowed only to reference functions.");
+    if (typeof fn !== 'function') {
+      throw new Error('You are allowed only to reference functions.');
     }
 
     // Look from the function inside the cache array and return it if it does exist.
@@ -57,7 +57,7 @@ export class SessionManager {
 
     // Create a function location object to put referencies into it
     // So that we can easilly access to them
-    if (typeof global[PREFIX] === "undefined") {
+    if (typeof global[PREFIX] === 'undefined') {
       global[PREFIX] = {};
     }
 
@@ -70,30 +70,30 @@ export class SessionManager {
       this.session = new Session();
       this.post$ = promisify(this.session.post).bind(this.session);
       this.session.connect();
-      this.session.on("Debugger.scriptParsed", (res) => {
+      this.session.on('Debugger.scriptParsed', (res) => {
         this.scripts[res.params.scriptId] = res.params;
       });
-      await this.post$("Debugger.enable");
+      await this.post$('Debugger.enable');
     }
 
     // Evaluate the expression
-    const evaluated = await this.post$("Runtime.evaluate", {
+    const evaluated = await this.post$('Runtime.evaluate', {
       expression: `global['${PREFIX}']['${uuid}']`,
       objectGroup: PREFIX,
     });
 
     // Get the function properties
-    const properties = await this.post$("Runtime.getProperties", {
+    const properties = await this.post$('Runtime.getProperties', {
       objectId: evaluated.result.objectId,
     });
 
-    const location = properties.internalProperties.find((prop) => prop.name === "[[FunctionLocation]]");
+    const location = properties.internalProperties.find((prop) => prop.name === '[[FunctionLocation]]');
     const script = this.scripts[location.value.value.scriptId];
     let source = script.url;
     const sourceMapUrl = script.sourceMapURL;
 
     // Normalize the source uri to ensure consistent result
-    if (!source.startsWith("file://")) {
+    if (!source.startsWith('file://')) {
       source = `file://${source}`;
     }
 
