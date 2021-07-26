@@ -101,7 +101,7 @@ describe('locate(fn)', () => {
 
   it('should return consistent file format', async () => {
     const result = await locate(promisify);
-    expect(result.source).to.equal('file://internal/util.js');
+    expect(result.source).to.equal('file://node:internal/util');
   });
 
   afterEach(async () => {

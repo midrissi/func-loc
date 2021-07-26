@@ -87,7 +87,8 @@ export class SourceMapper {
     } else if (sourceMapUrl) {
       const parsedSourceMapUrl = parseDataURL(sourceMapUrl);
       if (parsedSourceMapUrl && parsedSourceMapUrl.body) {
-        result.sourceMap = JSON.parse(parsedSourceMapUrl.body.toString());
+        const decoded = new TextDecoder().decode(parsedSourceMapUrl.body);
+        result.sourceMap = JSON.parse(decoded);
         result.consumer = await new SourceMapConsumer(result.sourceMap);
       }
     }
