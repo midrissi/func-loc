@@ -1,25 +1,26 @@
-const { describe, it, afterEach } = require('mocha');
-const { expect } = require('chai');
-const { promisify } = require('util');
-const path = require('path');
+import { describe, it, afterEach } from 'mocha';
+import { expect } from 'chai';
+import { promisify } from 'util';
+import {resolve} from 'path';
 
-const { resolve } = path;
+import { locate, clean } from '..'
+
+
+import { fn, fn2, inner }  from './assets/module';
+import { fn as tsFn, fn2 as tsFn2, inner as tsInner } from './assets/module-ts';
+
+import { SourceMapper } from '../dist/mapper.class';
+import { fn as fnInvalid1 } from './assets/invalid';
+import { fn as fnInvalid2 } from './assets/invalid2';
+import { URL } from 'url';
 
 const modPath = './assets/module';
 
-// eslint-disable-next-line import/no-dynamic-require
-const { fn, fn2, inner } = require(`${modPath}.js`);
-// eslint-disable-next-line import/no-dynamic-require
-const { fn: tsFn, fn2: tsFn2, inner: tsInner } = require(`${modPath}.ts`);
-
-const { locate, clean } = require('..');
-const { SourceMapper } = require('../dist/mapper.class');
-const { fn: fnInvalid1 } = require('./assets/invalid');
-const { fn: fnInvalid2 } = require('./assets/invalid2');
+const __dirname = new URL('.', import.meta.url).pathname;
 
 const { normalizePath } = SourceMapper;
 
-const KEYS_COUNT = Object.keys(global).length;
+const KEYS_COUNT = Object.keys(globalThis).length;
 const modFullPath = normalizePath(`${resolve(__dirname, modPath)}.js`);
 const modFullSource = `file://${modFullPath}`;
 const tsPath = normalizePath(`${resolve(__dirname, modPath)}.ts`);
@@ -112,9 +113,9 @@ describe('locate(fn)', () => {
 describe('clean()', () => {
   it('should clean global object', async () => {
     await locate(fn);
-    expect(Object.keys(global).length).to.equal(KEYS_COUNT + 1);
+    expect(Object.keys(globalThis).length).to.equal(KEYS_COUNT + 1);
     await clean();
-    expect(Object.keys(global).length).to.equal(KEYS_COUNT);
+    expect(Object.keys(globalThis).length).to.equal(KEYS_COUNT);
   });
 
   it('should return true if no session was created', async () => {

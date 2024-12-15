@@ -1,3 +1,5 @@
 'use strict';
-exports.fn = () => {};
+export const fn = () => {
+  // Do nothing
+};
 //# sourceMappingURL=invalid.js.map

@@ -16,9 +16,7 @@ export class SessionManager {
   private cache: CacheManager = new CacheManager();
   private session: Session | undefined;
   private post$;
-  private scripts: {
-    [scriptId: string]: Debugger.ScriptParsedEventDataType;
-  } = {};
+  private scripts: Record<string, Debugger.ScriptParsedEventDataType> = {};
 
   public async clean(): Promise<boolean> {
     if (!this.session) {
@@ -30,6 +28,7 @@ export class SessionManager {
     });
 
     this.session.disconnect();
+    // eslint-disable-next-line @typescript-eslint/no-dynamic-delete
     delete global[PREFIX];
     this.session = undefined;
     this.cache.clear();
@@ -37,7 +36,7 @@ export class SessionManager {
     return true;
   }
 
-  public async locate(fn: (...args: any) => any, opts?: ILocateOptions): Promise<ILocation> {
+  public async locate(fn: (...args: unknown[]) => unknown, opts?: ILocateOptions): Promise<ILocation> {
     if (typeof fn !== 'function') {
       throw new Error('You are allowed only to reference functions.');
     }
@@ -111,7 +110,7 @@ export class SessionManager {
         if (res) {
           result = res;
         }
-      } catch (e) {
+      } catch (_e) {
         // Do nothing
       }
     }

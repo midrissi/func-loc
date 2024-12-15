@@ -1,7 +1,0 @@
-node_modules/*
-!.eslintrc.js
-coverage/
-.nyc_output/
-dist/
-tmp/
-__tests__/assets

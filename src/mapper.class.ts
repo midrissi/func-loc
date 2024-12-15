@@ -19,11 +19,13 @@ interface IFileMap {
   consumer?: SourceMapConsumer;
 }
 
-const cache: {
-  [fileName: string]: Deferred<IFileMap> | undefined;
-} = {};
+const cache: Record<string, Deferred<IFileMap>> = {};
 
 export class SourceMapper {
+  readonly map: Map<string, ILocation>;
+  constructor() {
+    this.map = new Map();
+  }
   public static normalizePath(p: string): string {
     let pathName = resolve(p).replace(/\\/g, '/');
 
@@ -82,7 +84,7 @@ export class SourceMapper {
 
     if (exec) {
       result.sourceMapPath = resolve(path, '..', exec[1]);
-      result.sourceMap = require(result.sourceMapPath);
+      result.sourceMap = await import(result.sourceMapPath);
       result.consumer = await new SourceMapConsumer(result.sourceMap);
     } else if (sourceMapUrl) {
       const parsedSourceMapUrl = parseDataURL(sourceMapUrl);

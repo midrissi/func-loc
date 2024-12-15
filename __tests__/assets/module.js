@@ -1,16 +1,18 @@
 'use strict';
-exports.__esModule = true;
+export const __esModule = true;
 function fn() {
   // Do nothing
 }
-exports.fn = fn;
+export const Fn = fn;
 function fn2() {
   // Do nothing
 }
-exports.fn2 = fn2;
+export const Fn2 = fn2;
 function inner() {
-  var fn3 = function () {};
+  var fn3 = function () {
+    // Empty body
+  };
   return fn3;
 }
-exports.inner = inner;
+export const Inner = inner;
 //# sourceMappingURL=module.js.map

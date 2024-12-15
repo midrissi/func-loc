@@ -9,7 +9,7 @@ export interface ILocation {
 }
 
 interface ICacheItem {
-  ref: (...args: any[]) => any;
+  ref: (...args: unknown[]) => unknown;
   location: Deferred<ILocation>;
 }
 
@@ -30,7 +30,7 @@ export class CacheManager {
    * Get a function location from its reference
    * @param fn The function reference
    */
-  public get(fn: () => any): ICacheItem | undefined {
+  public get(fn: () => unknown): ICacheItem | undefined {
     return this.fnCache.find((one) => one.ref === fn);
   }
 
